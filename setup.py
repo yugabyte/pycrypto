@@ -81,7 +81,7 @@ if sys.version_info[0] == 2:
 else:
     EXCLUDE_PY = [
         # We don't want Py3k to choke on the 2.x compat code
-        ('Crypto.Util', 'py21compat'), 
+        ('Crypto.Util', 'py21compat'),
     ]
     if sys.platform != "win32": # Avoid nt.py, as 2to3 can't fix it w/o winrandom
         EXCLUDE_PY += [('Crypto.Random.OSRNG','nt')]
@@ -381,7 +381,7 @@ class TestCommand(Command):
     sub_commands = [ ('build', None) ]
 
 kw = {'name':"yb-pycrypto",
-      'version':"2.7a100",  # See also: lib/Crypto/__init__.py
+      'version':"2.7a101",  # See also: lib/Crypto/__init__.py
       'description':"Cryptographic modules for Python, Yugabyte's fork.",
       'author':"Dwayne C. Litzenberger",
       'author_email':"dlitz@dlitz.net",
@@ -444,6 +444,7 @@ kw = {'name':"yb-pycrypto",
                       include_dirs=['src/'],
                       sources=["src/AES.c"]),
 
+            # Yugabyte change:
             # Got a compilation error on macOS 10.14, disabling this extension:
             # https://gist.githubusercontent.com/mbautin/4253406e9a3e442200abcea1918ea1dd/raw
 
@@ -460,12 +461,21 @@ kw = {'name':"yb-pycrypto",
             Extension("Crypto.Cipher._CAST",
                       include_dirs=['src/'],
                       sources=["src/CAST.c"]),
-            Extension("Crypto.Cipher._DES",
-                      include_dirs=['src/', 'src/libtom/'],
-                      sources=["src/DES.c"]),
-            Extension("Crypto.Cipher._DES3",
-                      include_dirs=['src/', 'src/libtom/'],
-                      sources=["src/DES3.c"]),
+
+            # Yugabyte change:
+            # Got a compilation error on macOS 10.14, disabling this extension:
+            # https://gist.githubusercontent.com/mbautin/b827c5650bbd892d0418f8f56935eae4/raw
+
+            # Extension("Crypto.Cipher._DES",
+            #           include_dirs=['src/', 'src/libtom/'],
+            #           sources=["src/DES.c"]),
+
+            # Also errored out on macOS 10.14:
+            # https://gist.githubusercontent.com/mbautin/3f3752e04bb327c04b34e7967c1527e3/raw
+
+            # Extension("Crypto.Cipher._DES3",
+            #           include_dirs=['src/', 'src/libtom/'],
+            #           sources=["src/DES3.c"]),
 
             # Stream ciphers
             Extension("Crypto.Cipher._ARC4",
