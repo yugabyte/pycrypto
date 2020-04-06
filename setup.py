@@ -380,9 +380,9 @@ class TestCommand(Command):
 
     sub_commands = [ ('build', None) ]
 
-kw = {'name':"pycrypto",
+kw = {'name':"yb-pycrypto",
       'version':"2.7a1",  # See also: lib/Crypto/__init__.py
-      'description':"Cryptographic modules for Python.",
+      'description':"Cryptographic modules for Python, Yugabyte's fork.",
       'author':"Dwayne C. Litzenberger",
       'author_email':"dlitz@dlitz.net",
       'url':"http://www.pycrypto.org/",
