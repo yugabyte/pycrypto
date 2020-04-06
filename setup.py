@@ -381,7 +381,7 @@ class TestCommand(Command):
     sub_commands = [ ('build', None) ]
 
 kw = {'name':"yb-pycrypto",
-      'version':"2.7a1",  # See also: lib/Crypto/__init__.py
+      'version':"2.7a1-yb-1",  # See also: lib/Crypto/__init__.py
       'description':"Cryptographic modules for Python, Yugabyte's fork.",
       'author':"Dwayne C. Litzenberger",
       'author_email':"dlitz@dlitz.net",
@@ -443,9 +443,14 @@ kw = {'name':"yb-pycrypto",
             Extension("Crypto.Cipher._AES",
                       include_dirs=['src/'],
                       sources=["src/AES.c"]),
-            Extension("Crypto.Cipher._AESNI",
-                      include_dirs=['src/'],
-                      sources=["src/AESNI.c"]),
+
+            # Got a compilation error on macOS 10.14, disabling this extension:
+            # https://gist.githubusercontent.com/mbautin/4253406e9a3e442200abcea1918ea1dd/raw
+
+            # Extension("Crypto.Cipher._AESNI",
+            #           include_dirs=['src/'],
+            #           sources=["src/AESNI.c"]),
+
             Extension("Crypto.Cipher._ARC2",
                       include_dirs=['src/'],
                       sources=["src/ARC2.c"]),
