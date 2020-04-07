@@ -348,7 +348,7 @@ class _RSAobj(pubkey.pubkey):
                nb = long_to_bytes(self.n)
                if bord(eb[0]) & 0x80: eb=bchr(0x00)+eb
                if bord(nb[0]) & 0x80: nb=bchr(0x00)+nb
-               keyparts = [ 'ssh-rsa', eb, nb ]
+               keyparts = [ b'ssh-rsa', eb, nb ]
                keystring = ''.join([ struct.pack(">I",len(kp))+kp for kp in keyparts]) 
                return 'ssh-rsa '+binascii.b2a_base64(keystring)[:-1]
 
