@@ -341,7 +341,7 @@ class TestCommand(Command):
         # Run slower self-tests
         self.announce("running extended self-tests")
 
-kw = {'name':"pycrypto",
+kw = {'name':"pycrypto-yb",
       'version':"2.6.2a100",  # See also: lib/Crypto/__init__.py
       'description':"Cryptographic modules for Python.",
       'author':"Dwayne C. Litzenberger",
