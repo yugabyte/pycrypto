@@ -148,7 +148,7 @@ class _RSAobj(pubkey.pubkey):
          is always None.
         """
         return pubkey.pubkey.encrypt(self, plaintext, K)
- 
+
     def decrypt(self, ciphertext):
         """Decrypt a piece of data with RSA.
 
@@ -207,7 +207,7 @@ class _RSAobj(pubkey.pubkey):
          this method. Failure to do so may lead to security vulnerabilities.
          It is recommended to use modules
          `Crypto.Signature.PKCS1_PSS` or `Crypto.Signature.PKCS1_v1_5` instead.
- 
+
         :Parameter M: The expected message.
         :Type M: byte string or long
 
@@ -318,7 +318,7 @@ class _RSAobj(pubkey.pubkey):
         :Type format: string
 
         :Parameter passphrase: In case of PEM, the pass phrase to derive the encryption key from.
-        :Type passphrase: string 
+        :Type passphrase: string
 
         :Parameter pkcs: The PKCS standard to follow for assembling the key.
          You have two choices:
@@ -349,7 +349,7 @@ class _RSAobj(pubkey.pubkey):
                if bord(eb[0]) & 0x80: eb=bchr(0x00)+eb
                if bord(nb[0]) & 0x80: nb=bchr(0x00)+nb
                keyparts = [ b'ssh-rsa', eb, nb ]
-               keystring = ''.join([ struct.pack(">I",len(kp))+kp for kp in keyparts]) 
+               keystring = b''.join([ struct.pack(">I",len(kp))+kp for kp in keyparts])
                return 'ssh-rsa '+binascii.b2a_base64(keystring)[:-1]
 
         # DER format is always used, even in case of PEM, which simply
@@ -388,7 +388,7 @@ class _RSAobj(pubkey.pubkey):
                     objenc = DES3.new(key, Crypto.Cipher.DES3.MODE_CBC, salt)
                     pem += b('Proc-Type: 4,ENCRYPTED\n')
                     pem += b('DEK-Info: DES-EDE3-CBC,') + binascii.b2a_hex(salt).upper() + b('\n\n')
-                
+
                 binaryKey = der.encode()
                 if objenc:
                     # Add PKCS#7-like padding
@@ -533,7 +533,7 @@ class RSAImplementation(object):
                     4. First factor of n (p). Optional.
                     5. Second factor of n (q). Optional.
                     6. CRT coefficient, (1/p) mod q (u). Optional.
-        
+
         :Return: An RSA key object (`_RSAobj`).
         """
         key = self._math.rsa_construct(*tup)
@@ -606,7 +606,7 @@ class RSAImplementation(object):
             - OpenSSH (textual public key only)
 
             For details about the PEM encoding, see `RFC1421`_/`RFC1423`_.
-            
+
             In case of PEM encoding, the private key can be encrypted with DES or 3TDES according to a certain ``pass phrase``.
             Only OpenSSL-compatible pass phrases are supported.
         :Type externKey: string
@@ -614,7 +614,7 @@ class RSAImplementation(object):
         :Parameter passphrase:
             In case of an encrypted PEM key, this is the pass phrase from which the encryption key is derived.
         :Type passphrase: string
-        
+
         :Return: An RSA key object (`_RSAobj`).
 
         :Raise ValueError/IndexError/TypeError:
@@ -656,7 +656,7 @@ class RSAImplementation(object):
                     else:
                         raise ValueError("Unsupport PEM encryption algorithm.")
                     lines = lines[2:]
-                
+
                 der = binascii.a2b_base64(b('').join(lines[1:-1]))
                 if keyobj:
                     der = keyobj.decrypt(der)
@@ -678,7 +678,7 @@ class RSAImplementation(object):
         if bord(externKey[0])==0x30:
                 # This is probably a DER encoded key
                 return self._importKeyDER(externKey)
-        
+
         raise ValueError("RSA key format is not supported")
 
 #: This is the ASN.1 DER object that qualifies an algorithm as
@@ -693,7 +693,7 @@ algorithmIdentifier = DerSequence(
   [ b('\x06\x09\x2A\x86\x48\x86\xF7\x0D\x01\x01\x01'),
   DerNull().encode() ]
   ).encode()
- 
+
 _impl = RSAImplementation()
 #:
 #: Randomly generate a fresh, new RSA key object.
@@ -716,4 +716,3 @@ importKey = _impl.importKey
 error = _impl.error
 
 # vim:set ts=4 sw=4 sts=4 expandtab:
-
