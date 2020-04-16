@@ -342,7 +342,7 @@ class TestCommand(Command):
         self.announce("running extended self-tests")
 
 kw = {'name':"pycrypto-yb",
-      'version':"2.6.2a100",  # See also: lib/Crypto/__init__.py
+      'version':"2.6.2a101",  # See also: lib/Crypto/__init__.py
       'description':"Cryptographic modules for Python.",
       'author':"Dwayne C. Litzenberger",
       'author_email':"dlitz@dlitz.net",
